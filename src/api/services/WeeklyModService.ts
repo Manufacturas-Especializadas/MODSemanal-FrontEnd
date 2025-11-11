@@ -25,6 +25,13 @@ class WeeklyModService {
         return apiClient.get<WeeklyModData[]>(this.getAllEndpoint);
     };
 
+    async getExistingWeeks(): Promise<number[]> {
+        const data = await this.getAll();
+        const weeks = Array.from(new Set(data.map(item => item.weekNumber)));
+
+        return weeks.sort((a, b) => a - b);
+    };
+
     async create(data: WeeklyModFormData): Promise<any> {
         return apiClient.post(this.createEndpoint, data);
     };

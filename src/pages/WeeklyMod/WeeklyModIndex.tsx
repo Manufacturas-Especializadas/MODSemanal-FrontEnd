@@ -48,6 +48,12 @@ export const WeeklyModIndex = () => {
         [filteredData]
     );
 
+    const handleNewRecord = () => {
+        setEditingWeek(null);
+        setEditingData([]);
+        setIsFormOpen(true);
+    };
+
     const handleEdit = (weekNumber: number, weekData: WeeklyModData[]) => {
         setEditingWeek(weekNumber);
         setEditingData(weekData);
@@ -58,6 +64,10 @@ export const WeeklyModIndex = () => {
         refetch();
         setEditingWeek(null);
         setEditingData([]);
+    };
+
+    const handleCloseForm = () => {
+        setIsFormOpen(false);
     };
 
     if (loading) {
@@ -79,7 +89,7 @@ export const WeeklyModIndex = () => {
                         Análisis de productividad y eficiencia
                     </p>
                     <button
-                        onClick={() => setIsFormOpen(true)}
+                        onClick={handleNewRecord}
                         className="mt-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg 
                         font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 
                         focus:ring-offset-2 hover:cursor-pointer"
@@ -106,7 +116,7 @@ export const WeeklyModIndex = () => {
 
                 <CreateWeeklyModForm
                     isOpen={isFormOpen}
-                    onClose={() => setIsFormOpen(false)}
+                    onClose={handleCloseForm}
                     onSuccess={handleSuccess}
                     editingWeek={editingWeek}
                     existingData={editingData}
