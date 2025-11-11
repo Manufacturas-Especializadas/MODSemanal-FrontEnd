@@ -13,9 +13,7 @@ export const useWeeklyModData = () => {
 
             // Simulamos una llamada a API - reemplaza con tu endpoint real
             // const response = await fetch('/api/weekly-mod');
-            // const result: WeeklyModData[] = await response.json();
-
-            // await new Promise(resolve => setTimeout(resolve, 1000)); // Simula delay de red
+            // const result: WeeklyModData[] = await response.json();            
 
             const sampleData: WeeklyModData[] = [
                 {
