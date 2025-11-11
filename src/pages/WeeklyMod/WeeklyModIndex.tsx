@@ -7,6 +7,7 @@ import { DataTable } from "../../components/DataTable/DataTable";
 import { SummaryCards } from "../../components/SummaryCards/SummaryCards";
 import { CreateWeeklyModForm } from "../../components/CreateWeeklyModForm/CreateWeeklyModForm";
 import type { WeeklyModData } from "../../types/WeeklyModData";
+import { useNavigate } from "react-router-dom";
 
 export const WeeklyModIndex = () => {
     const { data, loading, error, refetch } = useWeeklyModData();
@@ -15,6 +16,7 @@ export const WeeklyModIndex = () => {
     const [isFormOpen, setIsFormOpen] = useState(false);
     const [editingWeek, setEditingWeek] = useState<number | null>(null);
     const [editingData, setEditingData] = useState<WeeklyModData[]>([]);
+    const navigate = useNavigate();
 
     const uniqueWeeks = useMemo(() =>
         Array.from(new Set(data.map(item => item.weekNumber))).sort(),
@@ -88,14 +90,24 @@ export const WeeklyModIndex = () => {
                     <p className="text-gray-600">
                         Análisis de productividad y eficiencia
                     </p>
-                    <button
-                        onClick={handleNewRecord}
-                        className="mt-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg 
-                        font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 
-                        focus:ring-offset-2 hover:cursor-pointer"
-                    >
-                        + Nuevo registro
-                    </button>
+                    <div className="flex justify-between">
+                        <button
+                            onClick={handleNewRecord}
+                            className="mt-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg 
+                            font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 
+                            focus:ring-offset-2 hover:cursor-pointer"
+                        >
+                            + Nuevo registro
+                        </button>
+                        <button
+                            onClick={() => navigate("/reportes-semanales")}
+                            className="mt-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg 
+                            font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-green-500 
+                            focus:ring-offset-2 hover:cursor-pointer"
+                        >
+                            Reportes
+                        </button>
+                    </div>
                 </div>
 
                 <Filters
