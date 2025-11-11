@@ -1,9 +1,8 @@
 import type React from "react";
-import type { WeeklyMod } from "../../types/WeeklyModData";
-
+import type { WeeklyModData } from "../../types/WeeklyModData";
 
 interface DataTableProps {
-    data: WeeklyMod[];
+    data: WeeklyModData[];
     totals: {
         productionVolume: number;
         hoursNeed: number;
