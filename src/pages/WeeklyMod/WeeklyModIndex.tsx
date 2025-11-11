@@ -6,12 +6,15 @@ import { Filters } from "../../components/Filters/Filters";
 import { DataTable } from "../../components/DataTable/DataTable";
 import { SummaryCards } from "../../components/SummaryCards/SummaryCards";
 import { CreateWeeklyModForm } from "../../components/CreateWeeklyModForm/CreateWeeklyModForm";
+import type { WeeklyModData } from "../../types/WeeklyModData";
 
 export const WeeklyModIndex = () => {
     const { data, loading, error, refetch } = useWeeklyModData();
     const [selectedWeek, setSelectedWeek] = useState<number | 'all'>('all');
     const [searchTerm, setSearchTerm] = useState('');
     const [isFormOpen, setIsFormOpen] = useState(false);
+    const [editingWeek, setEditingWeek] = useState<number | null>(null);
+    const [editingData, setEditingData] = useState<WeeklyModData[]>([]);
 
     const uniqueWeeks = useMemo(() =>
         Array.from(new Set(data.map(item => item.weekNumber))).sort(),
@@ -45,8 +48,16 @@ export const WeeklyModIndex = () => {
         [filteredData]
     );
 
+    const handleEdit = (weekNumber: number, weekData: WeeklyModData[]) => {
+        setEditingWeek(weekNumber);
+        setEditingData(weekData);
+        setIsFormOpen(true);
+    };
+
     const handleSuccess = () => {
         refetch();
+        setEditingWeek(null);
+        setEditingData([]);
     };
 
     if (loading) {
@@ -87,7 +98,7 @@ export const WeeklyModIndex = () => {
                     filteredRecords={filteredData.length}
                 />
 
-                <DataTable data={filteredData} totals={totals} />
+                <DataTable data={filteredData} totals={totals} onEdit={handleEdit} />
 
                 {filteredData.length > 0 && (
                     <SummaryCards totals={totals} />
@@ -97,6 +108,8 @@ export const WeeklyModIndex = () => {
                     isOpen={isFormOpen}
                     onClose={() => setIsFormOpen(false)}
                     onSuccess={handleSuccess}
+                    editingWeek={editingWeek}
+                    existingData={editingData}
                 />
             </div>
         </div>

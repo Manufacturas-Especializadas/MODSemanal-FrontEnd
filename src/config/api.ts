@@ -10,7 +10,8 @@ export const API_CONFIG = {
         weeklyMod: {
             getAll: "/api/MODSemanal/Getall",
             getByWeek: "/api/MODSemanal/GetByWeek/",
-            create: "/api/MODSemanal/CreateWeeklyPlan"
+            create: "/api/MODSemanal/CreateWeeklyPlan",
+            update: "/api/MODSemanal/UpdateWeeklyPlan/"
         }
     }
 };

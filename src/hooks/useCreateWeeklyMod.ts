@@ -20,8 +20,24 @@ export const useCreateWeeklyMod = () => {
         }
     };
 
+    const updateWeeklyMod = async (weekNumber: number, formData: WeeklyModFormData) => {
+        try {
+            setLoading(true);
+            setError(null);
+            const response = weeklyService.update(weekNumber, formData);
+            return response;
+        } catch (error: any) {
+            const errorMessage = error instanceof Error ? error.message : "Error al crear el registro";
+            setError(errorMessage);
+            throw error;
+        } finally {
+            setLoading(false);
+        }
+    };
+
     return {
         createWeeklyMod,
+        updateWeeklyMod,
         loading,
         error,
         resetError: () => setError(null)

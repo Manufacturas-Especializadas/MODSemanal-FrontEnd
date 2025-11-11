@@ -1,21 +1,26 @@
 import type React from "react";
 import { useCreateWeeklyMod } from "../../hooks/useCreateWeeklyMod";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { WeeklyModFormData } from "../../api/services/WeeklyModService";
 import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
+import type { WeeklyModData } from "../../types/WeeklyModData";
 
 interface CreateWeeklyModFormProps {
     isOpen: boolean;
     onClose: () => void;
     onSuccess: () => void;
+    editingWeek?: number | null;
+    existingData?: WeeklyModData[];
 };
 
 export const CreateWeeklyModForm: React.FC<CreateWeeklyModFormProps> = ({
     isOpen,
     onClose,
-    onSuccess
+    onSuccess,
+    editingWeek = null,
+    existingData = []
 }) => {
-    const { createWeeklyMod, loading, error, resetError } = useCreateWeeklyMod();
+    const { createWeeklyMod, updateWeeklyMod, loading, error, resetError } = useCreateWeeklyMod();
 
     const [formData, setFormData] = useState<WeeklyModFormData>({
         weekNumber: 0,
@@ -30,6 +35,33 @@ export const CreateWeeklyModForm: React.FC<CreateWeeklyModFormProps> = ({
             mod: 0
         }
     });
+
+    useEffect(() => {
+        if (isOpen && editingWeek && existingData.length > 0) {
+            const cuData = existingData.find(item => item.materialType === "CU");
+            const alData = existingData.find(item => item.materialType === "AL");
+
+            setFormData({
+                weekNumber: editingWeek,
+                cuData: {
+                    productivityTarget: cuData?.productivityTarget || 0,
+                    productionVolume: cuData?.productionVolume || 0,
+                    mod: cuData?.mod || 0
+                },
+                alData: {
+                    productivityTarget: alData?.productivityTarget || 0,
+                    productionVolume: alData?.productionVolume || 0,
+                    mod: alData?.mod || 0
+                }
+            });
+        } else if (isOpen) {
+            setFormData({
+                weekNumber: 0,
+                cuData: { productivityTarget: 0, productionVolume: 0, mod: 0 },
+                alData: { productivityTarget: 0, productionVolume: 0, mod: 0 }
+            });
+        }
+    }, [isOpen, editingWeek, existingData]);
 
     const handleInputChange = (
         section: 'cuData' | 'alData' | "general",
@@ -57,17 +89,14 @@ export const CreateWeeklyModForm: React.FC<CreateWeeklyModFormProps> = ({
         resetError();
 
         try {
-            await createWeeklyMod(formData);
+            if (editingWeek) {
+                await updateWeeklyMod(editingWeek, formData);
+            } else {
+                await createWeeklyMod(formData);
+            }
             onSuccess();
             onClose();
-
-            setFormData({
-                weekNumber: 0,
-                cuData: { productivityTarget: 0, productionVolume: 0, mod: 0 },
-                alData: { productivityTarget: 0, productionVolume: 0, mod: 0 }
-            });
-        } catch (error: any) {
-
+        } catch (err) {
         }
     };
 
