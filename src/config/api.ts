@@ -8,7 +8,9 @@ export const API_CONFIG = {
     baseUrl: API_BASE_URL,
     endpoint: {
         weeklyMod: {
-
+            getAll: "/api/MODSemanal/Getall",
+            getByWeek: "/api/MODSemanal/GetByWeek/",
+            create: "/api/MODSemanal/CreateWeeklyPlan"
         }
     }
 };
