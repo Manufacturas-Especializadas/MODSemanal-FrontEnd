@@ -18,14 +18,14 @@ export interface WeeklyModFormData {
 
 class WeeklyModService {
     private getAllEndpoint = API_CONFIG.endpoint.weeklyMod.getAll;
-    private CreateEndpoint = API_CONFIG.endpoint.weeklyMod.create;
+    private createEndpoint = API_CONFIG.endpoint.weeklyMod.create;
 
     async getAll(): Promise<WeeklyModData[]> {
         return apiClient.get<WeeklyModData[]>(this.getAllEndpoint);
     };
 
     async create(data: WeeklyModFormData): Promise<any> {
-        return apiClient.post(this.CreateEndpoint, data);
+        return apiClient.post(this.createEndpoint, data);
     };
 };
 
