@@ -12,10 +12,8 @@ interface FilterProps {
 
 export const Filters: React.FC<FilterProps> = ({
     selectedWeek,
-    searchTerm,
     uniqueWeeks,
     onWeekChange,
-    onSearchChange,
     totalRecords,
     filteredRecords
 }) => {
@@ -43,6 +41,19 @@ export const Filters: React.FC<FilterProps> = ({
                             ))
                         }
                     </select>
+                </div>
+
+                <div className="bg-blue-50 rounded-lg p-4">
+                    <p className="text-sm text-blue-800 font-medium">
+                        Monstrando {filteredRecords} de {totalRecords} registros
+                    </p>
+                    {
+                        selectedWeek !== "all" && (
+                            <p className="text-sm text-blue-600 mt-1">
+                                Semena {selectedWeek}
+                            </p>
+                        )
+                    }
                 </div>
             </div>
         </div>
