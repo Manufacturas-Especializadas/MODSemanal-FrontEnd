@@ -59,7 +59,7 @@ export const WeeklyModIndex = () => {
                         Reporte Semanal de MOD
                     </h1>
                     <p className="text-gray-600">
-                        Análisis de productividad y eficiencia por material
+                        Análisis de productividad y eficiencia
                     </p>
                 </div>
 
