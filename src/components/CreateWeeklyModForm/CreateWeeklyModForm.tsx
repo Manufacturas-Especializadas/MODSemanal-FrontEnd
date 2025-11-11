@@ -103,7 +103,6 @@ export const CreateWeeklyModForm: React.FC<CreateWeeklyModFormProps> = ({
         resetError();
         setWeekError(null);
 
-        // 🔹 Solo llamamos al backend cuando el modal se abre
         if (!isEditing) {
             refetchWeeks();
         }
@@ -166,7 +165,6 @@ export const CreateWeeklyModForm: React.FC<CreateWeeklyModFormProps> = ({
             onSuccess();
             onClose();
         } catch (err) {
-            // El error ya es manejado por el hook
         }
     };
 
@@ -178,7 +176,6 @@ export const CreateWeeklyModForm: React.FC<CreateWeeklyModFormProps> = ({
 
     const isFormValid = !weekError && formData.weekNumber > 0 && formData.weekNumber <= 53;
 
-    // Función para obtener el valor de display (vacío si es 0)
     const getDisplayValue = (value: number): string => {
         return value === 0 ? '' : value.toString();
     };
